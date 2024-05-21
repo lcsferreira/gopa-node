@@ -10,36 +10,31 @@
     "/users": {
       "get": {
         "summary": "Get all users",
+        "tags": ["Users"],
         "responses": {
           "200": {
-            "description": "List of users"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
         "summary": "Create a new user",
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "isMain": {
-                    "type": "boolean"
-                  },
-                  "isAdmin": {
-                    "type": "boolean"
-                  }
-                },
+                "$ref": "#/components/schemas/User",
                 "required": ["email", "name", "password"]
               }
             }
@@ -47,23 +42,55 @@
         },
         "responses": {
           "201": {
-            "description": "User created"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Invalid input"
+            "description": "ERROR - INVALID DATA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "409": {
-            "description": "User already exists"
+            "description": "ERROR - USER ALREADY EXISTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/users/:email": {
+    "/users/{id}": {
       "get": {
-        "summary": "Get user by email",
+        "summary": "Get user by id",
+        "tags": ["Users/{id}"],
         "parameters": [
           {
-            "name": "email",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -73,68 +100,100 @@
         ],
         "responses": {
           "200": {
-            "description": "User found"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "ERROR - USER NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "put": {
-        "summary": "Update user by email",
+        "summary": "Update user by id",
+        "tags": ["Users/{id}"],
         "parameters": [
           {
-            "name": "email",
+            "name": "id",
             "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "required": true
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "isMain": {
-                    "type": "boolean"
-                  },
-                  "isAdmin": {
-                    "type": "boolean"
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ERROR - INVALID DATA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ERROR - USER NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "User updated"
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "404": {
-            "description": "User not found"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
           }
         }
       },
       "delete": {
-        "summary": "Delete user by email",
+        "summary": "Delete user by id",
+        "tags": ["Users/{id}"],
         "parameters": [
           {
-            "name": "email",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -144,10 +203,53 @@
         ],
         "responses": {
           "200": {
-            "description": "User deleted"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "ERROR - USER NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isMain": {
+            "type": "boolean"
+          },
+          "isAdmin": {
+            "type": "boolean"
           }
         }
       }
