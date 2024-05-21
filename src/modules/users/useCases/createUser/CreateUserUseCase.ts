@@ -13,8 +13,20 @@ export class CreateUserUseCase {
       },
     });
 
+    const validEmail = email.includes("@");
+
+    if (!validEmail) {
+      throw new AppError("Invalid email", 400);
+    }
+
+    const validPassword = password.length >= 6;
+
+    if (!validPassword) {
+      throw new AppError("Invalid password", 400);
+    }
+
     if (userAlreadyExists) {
-      throw new AppError("User already exists");
+      throw new AppError("User already exists", 409);
     }
 
     //criar usuário
