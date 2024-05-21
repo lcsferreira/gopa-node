@@ -229,6 +229,27 @@
           }
         }
       }
+    },
+    "/countries": {
+      "get": {
+        "summary": "Get all countries",
+        "tags": ["Countries"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Country"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -267,6 +288,34 @@
           },
           "isAdmin": {
             "type": "boolean"
+          }
+        }
+      },
+      "Country": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "capital": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "hasTranslation": {
+            "type": "boolean"
+          },
+          "indicatorsStep": {
+            "type": "integer"
+          },
+          "translationStep": {
+            "type": "integer"
+          },
+          "countryCardsTranslatedStep": {
+            "type": "integer"
+          },
+          "countryCardsStep": {
+            "type": "integer"
           }
         }
       }
