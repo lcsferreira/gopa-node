@@ -142,7 +142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserEdit"
                 }
               }
             }
@@ -182,7 +182,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserEdit"
               }
             }
           }
@@ -245,8 +245,25 @@
           "password": {
             "type": "string"
           },
-          "isMain": {
+          "institution": {
+            "type": "string"
+          },
+          "isAdmin": {
             "type": "boolean"
+          }
+        }
+      },
+      "UserEdit": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
           },
           "isAdmin": {
             "type": "boolean"

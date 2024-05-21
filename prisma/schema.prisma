@@ -14,12 +14,12 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
-  name     String
-  password String
-  isMain   Boolean @default(false)
-  isAdmin  Boolean @default(false)
+  id          String  @id @default(cuid())
+  email       String  @unique
+  name        String
+  password    String
+  institution String
+  isAdmin     Boolean
 
   countries UserCountry[]
 
@@ -31,7 +31,7 @@ model Country {
   name                       String  @unique
   capital                    String
   region                     String
-  hasTranslation             Boolean @default(false)
+  hasTranslation             Boolean
   indicatorsStep             Int     @default(0)
   translationStep            Int     @default(0)
   countryCardsTranslatedStep Int     @default(0)
@@ -47,6 +47,7 @@ model UserCountry {
   userId    String
   country   Country @relation(fields: [countryId], references: [id])
   countryId String
+  isMain    Boolean
 
   @@id([userId, countryId])
   @@map("user_countries")

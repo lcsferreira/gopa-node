@@ -1,23 +1,33 @@
 import { User } from "@prisma/client";
 import { prisma } from "../../../../prisma/client";
-import { CreateUserDTO } from "../../dtos/CreateUserDTO";
+import { PutUserDTO } from "../../dtos/PutUserDTO";
 import { AppError } from "../../../../errors/AppError";
 
-export class CreateUserUseCase {
+export class PutUserUseCase {
   async execute({
+    id,
     name,
     email,
-    password,
     institution,
     isAdmin,
-  }: CreateUserDTO): Promise<User> {
+  }: PutUserDTO): Promise<User> {
     // Regras de negócio
     // Se o usuário já existe
-    const userAlreadyExists = await prisma.user.findUnique({
+    const userDontExists = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    const emailAlreadyExists = await prisma.user.findUnique({
       where: {
         email,
       },
     });
+
+    if (emailAlreadyExists) {
+      throw new AppError("Email already exists", 400);
+    }
 
     const validEmail = email.includes("@");
 
@@ -25,22 +35,18 @@ export class CreateUserUseCase {
       throw new AppError("Invalid email", 400);
     }
 
-    const validPassword = password.length >= 6;
-
-    if (!validPassword) {
-      throw new AppError("Invalid password", 400);
+    if (!userDontExists) {
+      throw new AppError("User don't exists", 404);
     }
 
-    if (userAlreadyExists) {
-      throw new AppError("User already exists", 409);
-    }
-
-    //criar usuário
-    const user = await prisma.user.create({
+    //editar usuário
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
       data: {
         name,
         email,
-        password,
         institution,
         isAdmin,
       },
