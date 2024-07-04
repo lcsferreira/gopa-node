@@ -7,6 +7,7 @@ export class CreateCountryUserRelationUseCase {
   async execute({
     userId,
     countryId,
+    isMain,
   }: CreateCountryUserRelationDTO): Promise<UserCountry> {
     const relationAlreadyExists = await prisma.userCountry.findFirst({
       where: {
@@ -23,6 +24,7 @@ export class CreateCountryUserRelationUseCase {
       data: {
         userId,
         countryId,
+        isMain,
       },
     });
 
