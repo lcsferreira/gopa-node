@@ -249,6 +249,166 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "Create a new country",
+        "tags": ["Countries"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Country",
+                "required": ["name", "capital", "region"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Country"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ERROR - INVALID DATA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ERROR - COUNTRY ALREADY EXISTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/relation": {
+      "post": {
+        "summary": "Create a new relation",
+        "tags": ["Relation"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCountryRelation",
+                "required": ["userId", "countryId", "isMain"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCountryRelation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ERROR - INVALID DATA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ERROR - RELATION ALREADY EXISTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/relation/{countryName}/users": {
+      "get": {
+        "summary": "Get all users by country name",
+        "tags": ["Relation/{countryName}/users"],
+        "parameters": [
+          {
+            "name": "countryName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ERROR - COUNTRY NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -316,6 +476,19 @@
           },
           "countryCardsStep": {
             "type": "integer"
+          }
+        }
+      },
+      "UserCountryRelation": {
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "countryId": {
+            "type": "string"
+          },
+          "isMain": {
+            "type": "boolean"
           }
         }
       }
