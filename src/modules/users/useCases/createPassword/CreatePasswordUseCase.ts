@@ -14,7 +14,7 @@ export class CreatePasswordUseCase {
       throw new AppError("User not found", 404);
     }
 
-    const hasPassword = user.password !== null;
+    const hasPassword = user.password !== "";
 
     if (hasPassword) {
       throw new AppError("Password already exists", 400);
