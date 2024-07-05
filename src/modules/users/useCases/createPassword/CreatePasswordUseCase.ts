@@ -14,6 +14,12 @@ export class CreatePasswordUseCase {
       throw new AppError("User not found", 404);
     }
 
+    const hasPassword = user.password !== null;
+
+    if (hasPassword) {
+      throw new AppError("Password already exists", 400);
+    }
+
     const hashedPassword = await bcrypt.hash(password, 8);
 
     await prisma.user.update({
