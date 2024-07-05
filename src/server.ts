@@ -4,11 +4,11 @@ import { routes } from "./routes";
 import { AppError } from "./errors/AppError";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
+import { authenticate } from "./middleware/authenticate";
 
 const app = express();
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 app.use(express.json());
 
 app.use(routes);
