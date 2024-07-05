@@ -10,6 +10,7 @@ export class PutUserUseCase {
     email,
     institution,
     isAdmin,
+    isActive,
   }: PutUserDTO): Promise<User> {
     // Regras de negócio
     // Se o usuário já existe
@@ -19,24 +20,26 @@ export class PutUserUseCase {
       },
     });
 
-    const emailAlreadyExists = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (emailAlreadyExists) {
-      throw new AppError("Email already exists", 400);
-    }
-
-    const validEmail = email.includes("@");
-
-    if (!validEmail) {
-      throw new AppError("Invalid email", 400);
-    }
-
     if (!userDontExists) {
       throw new AppError("User don't exists", 404);
+    }
+
+    //VERIFY IF EMAIL IS CHANGED
+    if (email !== userDontExists?.email) {
+      const emailAlreadyExists = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (emailAlreadyExists) {
+        throw new AppError("Email already exists", 400);
+      }
+
+      const validEmail = email.includes("@");
+
+      if (!validEmail) {
+        throw new AppError("Invalid email", 400);
+      }
     }
 
     //editar usuário
@@ -49,6 +52,7 @@ export class PutUserUseCase {
         email,
         institution,
         isAdmin,
+        isActive,
       },
     });
 

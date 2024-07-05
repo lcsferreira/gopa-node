@@ -7,7 +7,6 @@ export class CreateUserUseCase {
   async execute({
     name,
     email,
-    password,
     institution,
     isAdmin,
   }: CreateUserDTO): Promise<User> {
@@ -25,12 +24,6 @@ export class CreateUserUseCase {
       throw new AppError("Invalid email", 400);
     }
 
-    const validPassword = password.length >= 6;
-
-    if (!validPassword) {
-      throw new AppError("Invalid password", 400);
-    }
-
     if (userAlreadyExists) {
       throw new AppError("User already exists", 409);
     }
@@ -40,7 +33,6 @@ export class CreateUserUseCase {
       data: {
         name,
         email,
-        password,
         institution,
         isAdmin,
       },

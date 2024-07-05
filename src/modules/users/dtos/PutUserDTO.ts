@@ -4,4 +4,5 @@ export interface PutUserDTO {
   email: string;
   institution: string;
   isAdmin: boolean;
+  isActive: boolean;
 }

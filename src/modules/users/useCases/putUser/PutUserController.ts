@@ -3,7 +3,7 @@ import { PutUserUseCase } from "./PutUserUseCase";
 
 export class PutUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, email, institution, isAdmin } = request.body;
+    const { name, email, institution, isAdmin, isActive } = request.body;
     const { id } = request.params;
 
     const putUserUseCase = new PutUserUseCase();
@@ -14,6 +14,7 @@ export class PutUserController {
       email,
       institution,
       isAdmin,
+      isActive,
     });
 
     return response.status(200).json(result);

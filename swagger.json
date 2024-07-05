@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "GoPA! API",
-    "description": "API for GoPA! application",
+    "description": "API for GoPA! workflow application",
     "version": "1.0.0"
   },
   "basePath": "/",
@@ -233,7 +233,7 @@
     "/users/{id}/createPassword": {
       "put": {
         "summary": "Create password for user by id",
-        "tags": ["Users/{id}/createPassword"],
+        "tags": ["Users/{id}"],
         "parameters": [
           {
             "name": "id",
@@ -495,9 +495,6 @@
           "name": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
           "institution": {
             "type": "string"
           },
@@ -519,6 +516,9 @@
             "type": "string"
           },
           "isAdmin": {
+            "type": "boolean"
+          },
+          "isActive": {
             "type": "boolean"
           }
         }
