@@ -4,12 +4,14 @@ import { GetAllUsersController } from "../modules/users/useCases/getAllUsers/Get
 import { GetUserByIdController } from "../modules/users/useCases/getUserById/GetUserByIdController";
 import { PutUserController } from "../modules/users/useCases/putUser/PutUserController";
 import { DeleteUserController } from "../modules/users/useCases/deleteUser/deleteUserController";
+import { CreatePasswordController } from "../modules/users/useCases/createPassword/createPasswordController";
 
 const createUserController = new CreateUserController();
 const getAllUsersController = new GetAllUsersController();
 const getUserByIdController = new GetUserByIdController();
 const putUserController = new PutUserController();
 const deleteUserController = new DeleteUserController();
+const createPasswordController = new CreatePasswordController();
 const userRoutes = Router();
 
 userRoutes.post("/", createUserController.handle);
@@ -17,5 +19,6 @@ userRoutes.get("/", getAllUsersController.handle);
 userRoutes.get("/:id", getUserByIdController.handle);
 userRoutes.put("/:id", putUserController.handle);
 userRoutes.delete("/:id", deleteUserController.handle);
+userRoutes.put("/:id/createPassword", createPasswordController.handle);
 
 export { userRoutes };
