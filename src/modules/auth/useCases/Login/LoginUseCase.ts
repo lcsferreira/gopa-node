@@ -18,7 +18,7 @@ export class LoginUseCase {
       });
 
       if (!user) {
-        throw new AppError("User not found", 404);
+        throw new AppError("Incorrect email", 401);
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
@@ -33,6 +33,11 @@ export class LoginUseCase {
 
       return { token };
     } catch (error: any) {
+      // Se o erro já for uma instância de AppError, relance o erro
+      if (error instanceof AppError) {
+        throw error;
+      }
+
       throw new AppError(error.message, 500);
     }
   }
