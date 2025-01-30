@@ -4,6 +4,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 const secret = process.env.JWT_SECRET || "";
 
+// Define o DTO para o usuário
+interface UserDTO {
+  name: string;
+  email: string;
+  institution: string;
+}
+
 export class LoginUseCase {
   async execute(email: string, password: string) {
     if (!email || !password) {
@@ -31,7 +38,13 @@ export class LoginUseCase {
         expiresIn: "30d",
       });
 
-      return { token };
+      const userDTO: UserDTO = {
+        name: user.name,
+        email: user.email,
+        institution: user.institution,
+      };
+
+      return { token, user: userDTO };
     } catch (error: any) {
       // Se o erro já for uma instância de AppError, relance o erro
       if (error instanceof AppError) {

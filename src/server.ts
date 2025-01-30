@@ -5,12 +5,19 @@ import { routes } from "./routes";
 import { AppError } from "./errors/AppError";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
+app.use(cookieParser());
+
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: [
+      "http://localhost:3001",
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ], // Endereços que terão acesso à API
     methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
     credentials: true,
   })

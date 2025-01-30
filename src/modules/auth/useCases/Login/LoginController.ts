@@ -9,6 +9,12 @@ export class LoginController {
 
     const result = await loginUseCase.execute(email, password);
 
-    return response.status(200).json({ result });
+    response.cookie("gopaAuth", result.token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return response.status(200).json(result.user);
   }
 }
