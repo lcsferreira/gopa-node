@@ -2,9 +2,8 @@ import { AppError } from "../../../../errors/AppError";
 import { prisma } from "../../../../prisma/client";
 import jwt from "jsonwebtoken";
 const secret = process.env.JWT_SECRET || "";
-import { EmailParams, Recipient, Sender } from "mailersend";
-import { mailSender, mailSenderName, websiteUrl } from "../utils";
-import { mailer } from "../../../mailer";
+import { mailSender, websiteUrl } from "../utils";
+import { transporter } from "../../../mailer";
 
 export class ForgotPasswordUseCase {
   async execute(email: string) {
@@ -24,9 +23,9 @@ export class ForgotPasswordUseCase {
       }
 
       // send email with link to reset password
-      const sentFrom = new Sender(mailSender, mailSenderName);
+      const sentFrom = mailSender;
 
-      const recipients = [new Recipient(user.email, user.name)];
+      const recipients = [user.email];
 
       const mailBody = `
         <p>Click the link below to reset your password</p>
@@ -39,21 +38,22 @@ export class ForgotPasswordUseCase {
       )}">Reset Password</a>
       `;
 
-      const emailParams = new EmailParams()
-        .setFrom(sentFrom)
-        .setTo(recipients)
-        .setReplyTo(sentFrom)
-        .setSubject("Forgot Password - Reset your password")
-        .setHtml(mailBody);
+      const emailParams = {
+        from: sentFrom,
+        to: recipients,
+        replyTo: sentFrom,
+        subject: "Forgot Password - Reset your password",
+        html: mailBody,
+      };
 
-      await mailer.email.send(emailParams);
+      await transporter.sendMail(emailParams);
 
       return { message: "Email sent" };
     } catch (error: any) {
       if (error instanceof AppError) {
         throw error;
       }
-
+      console.log(error);
       throw new AppError(error.message, 500);
     }
   }

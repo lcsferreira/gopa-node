@@ -1,5 +1,9 @@
-import { MailerSend } from "mailersend";
+import nodemailer from "nodemailer";
 
-export const mailer = new MailerSend({
-  apiKey: process.env.MAILERSEND_API_KEY || "",
+export const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.MAILER_USER || "",
+    pass: process.env.MAILER_PASSWORD || "",
+  },
 });

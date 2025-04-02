@@ -1,3 +1,3 @@
-export const mailSender = "MS_YySNDe@trial-351ndgw2qkdgzqx8.mlsender.net";
+export const mailSender = "lucas.simoes.ferreira@gmail.com";
 export const mailSenderName = "GoPaMail Test";
 export const websiteUrl = "http://localhost:3000";
